@@ -3,7 +3,7 @@ html,body{
   height:100%;
 }
 body{
-  background-image: url("../img/1.jpg");
+  background-image: url("../img/0.jpg");
   background-size: cover;
   position:relative;
   overflow: hidden;
@@ -29,102 +29,7 @@ body{
   justify-content: space-between;
   align-items: center;
 }
-main>div{
-  width:300px;
-  height:200px;
-  position:absolute;
-  background: #00aa00;
-  background-size: cover;
+#container{
+  cursor: pointer;
+  background-image: url("../img/0.jpg");
 }
-main>div:nth-child(1){
-  top:100px;
-  left:230px;
-  transform:translateZ(-400px);
-  background-image: url("../img/9.jpg");
-}
-main>div:nth-child(2){
-  top:100px;
-  right:230px;
-  transform:translateZ(-300px);
-  background-image: url("../img/10.jpg");
-}
-main>div:nth-child(3){
-  top:400px;
-  left:230px;
-  transform:translateZ(-200px);
-  background-image: url("../img/11.jpg");
-}
-main>div:nth-child(4){
-  top:380px;
-  right:330px;
-  transform:translateZ(-50px);
-  background-image: url("../img/12.jpg");
-}
-main>div:nth-child(5){
-  top:100px;
-  right:230px;
-  transform:translateZ(-600px);
-  background-image: url("../img/13.jpg");
-}
-
-main>div:nth-child(6){
-  top:100px;
-  right:100px;
-  transform:translateZ(-500px);
-  background-image: url("../img/14.jpg");
-}
-main>div:nth-child(7){
-  top:200px;
-  right:230px;
-  transform:translateZ(-200px);
-  background-image: url("../img/15.jpg");
-}
-main>div:nth-child(8){
-  top:300px;
-  left:800px;
-  transform:translateZ(-400px);
-  background-image: url("../img/16.jpg");
-}
-main>div:nth-child(9){
-   top:350px;
-   right:500px;
-   transform:translateZ(-400px);
-   background-image: url("../img/17.jpg");
- }
-main>div:nth-child(10){
-  top: 224px;
-  right:318px;
-  transform:translateZ(30px);
-  background-image: url("../img/18.jpg");
-}
-main>div:nth-child(11){
-  top:100px;
-  left:930px;
-  transform:translateZ(-400px);
-  background-image: url("../img/19.jpg");
-}
-main>div:nth-child(12){
-  top:170px;
-  left:830px;
-  transform:translateZ(-300px);
-  background-image: url("../img/20.jpg");
-}
-main>div:nth-child(13){
-  top:400px;
-  left:730px;
-  transform:translateZ(-200px);
-  background-image: url("../img/21.jpg");
-}
-main>div:nth-child(14){
-  top:200px;
-  left:330px;
-  transform:translateZ(-50px);
-  background-image: url("../img/22.jpg");
-}
-main>div:nth-child(15){
-  top:224px;
-  right:518px;
-  transform:translateZ(-50px);
-  background-image: url("../img/23.jpg");
-}
-
