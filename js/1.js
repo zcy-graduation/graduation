@@ -3,7 +3,7 @@
  */
 $(document).ready(function () {
     if ( ! Detector.webgl ) Detector.addGetWebGLMessage();
-    let container, stats;
+    let container, stats,texture_placeholder;
     let camera, controls, scene, renderer;
     let cross;
     let raycaster;
@@ -11,10 +11,10 @@ $(document).ready(function () {
     init();
     animate();
     function init() {
-        camera = new THREE.PerspectiveCamera( 60, window.innerWidth / window.innerHeight, 1, 1000 );
+        camera = new THREE.PerspectiveCamera( 60, window.innerWidth / window.innerHeight, 1, 100000 );
         camera.position.z =500;
         controls = new THREE.TrackballControls( camera );
-        controls.rotateSpeed = 1.5; //旋转速度
+        controls.rotateSpeed = 11.5; //旋转速度
         controls.zoomSpeed = 1.2;   //变焦速度
         controls.panSpeed = 0.8;    //平移速度
         controls.noZoom = false;    //是否不变焦
@@ -25,7 +25,7 @@ $(document).ready(function () {
         controls.addEventListener( 'change', render );
         // world
         scene = new THREE.Scene();
-        scene.fog = new THREE.FogExp2( 0xcccccc, 0.002 );   //创建雾效  geometry几何
+        // scene.fog = new THREE.FogExp2( 0xcccccc, 0.002 );   //创建雾效  geometry几何
         let geometry=new THREE.PlaneGeometry(150,100);  //平面大小
         let main=$('#container');
         console.log(main);
@@ -86,48 +86,8 @@ $(document).ready(function () {
             scene.add( mesh );
         }
 
-        let sides=[
-            {
-                url:'../img/posx.jpg',
-                position:[-512,0,0],
-                rotation:[0,Math.PI/2,0]
-            },
-            {
-                url:'../img/negx.jpg',
-                position:[512,0,0],
-                rotation:[0,-Math.PI/2,0]
-            },
-            {
-                url:'../img/posy.jpg',
-                position:[0,512,0],
-                rotation:[Math.PI/2,0,Math.PI]
-            },
-            {
-                url:'../img/negy.jpg',
-                position:[0,-512,0],
-                rotation:[-Math.PI/2,0,Math.PI]
-            },
-            {
-                url:'../img/posz.jpg',
-                position:[0,0,512],
-                rotation:[0,Math.PI,0]
-            },
-            {
-                url:'../img/negz.jpg',
-                position:[0,0,-512],
-                rotation:[0,0,0]
-            },
-        ];
-        for(let i=0;i<sides.length;i++){
-            let side = sides[ i ];
-            let element = document.createElement( 'img' );
-            element.width = 1026; // 2 pixels extra to close the gap.
-            element.src = side.url;
-            let object = new THREE.CSS3DObject( element );
-            object.position.fromArray( side.position );
-            object.rotation.fromArray( side.rotation );
-            scene.add( object );
-        }
+
+
         // lights
         light = new THREE.DirectionalLight( 0xffffff );
         light.position.set( 1, 1, 1 );
@@ -143,24 +103,51 @@ $(document).ready(function () {
         mouse=new THREE.Vector2();  //新建一个Vector2对象保存鼠标位置信息，监听鼠标移动事件
 
         renderer = new THREE.WebGLRenderer( { antialias: false } ); //生成渲染器对象，锯齿效果false
-        renderer.setClearColor( scene.fog.color ); //设置渲染器清除色
+        // renderer.setClearColor( scene.fog.color ); //设置渲染器清除色
         renderer.setPixelRatio( window.devicePixelRatio );
         renderer.setSize( window.innerWidth, window.innerHeight );
         container = document.getElementById( 'container' );
         container.appendChild( renderer.domElement );
 
-
-
-        //
-
-
-
+        texture_placeholder=document.createElement('canvas');
+        texture_placeholder.width = 128;
+        texture_placeholder.height = 128;
+        let context = texture_placeholder.getContext( '2d' );
+        context.fillStyle = 'rgb( 200, 200, 200 )';
+        context.fillRect( 0, 0, texture_placeholder.width, texture_placeholder.height );
+        let materials = [
+            loadTexture( '../img/10.jpg' ), // right
+            loadTexture( '../img/11.jpg' ), // left
+            loadTexture( '../img/12.jpg' ), // top
+            loadTexture( '../img/13.jpg' ), // bottom
+            loadTexture( '../img/14.jpg' ), // back
+            loadTexture( '../img/15.jpg' ) // front
+        ];
+       let mesh=new THREE.Mesh(new THREE.BoxGeometry( 30000, 30000, 30000, 70, 70, 70 ), new THREE.MultiMaterial( materials ) );
+        mesh.scale.x = - 1;
+        scene.add( mesh );
+        for ( let i = 0, l = mesh.geometry.vertices.length; i < l; i ++ ) {
+            let vertex = mesh.geometry.vertices[ i ];
+            vertex.normalize();
+            vertex.multiplyScalar( 550 );
+        }
 
         document.addEventListener( 'mousedown', onDocumentMouseDown, false );
         document.addEventListener( 'touchstart', onDocumentTouchStart, false );
         window.addEventListener( 'resize', onWindowResize, false );
         render();
 
+    }
+    function loadTexture( path ) {
+        let texture = new THREE.Texture( texture_placeholder );
+        let material = new THREE.MeshBasicMaterial( { map: texture, overdraw: 0.5 } );
+        let image = new Image();
+        image.onload = function () {
+            texture.image = this;
+            texture.needsUpdate = true;
+        };
+        image.src = path;
+        return material;
     }
     function onWindowResize() {
         camera.aspect = window.innerWidth / window.innerHeight;
