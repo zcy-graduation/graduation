@@ -9,27 +9,6 @@ body {
   overflow: hidden;
   perspective: 1000px; }
 
-.top {
-  top: 0;
-  width: 100%;
-  height: 53px;
-  position: fixed;
-  left: 0;
-  background: rgba(255, 255, 255, 0.7); }
-
-.foot {
-  width: 100%;
-  height: 53px;
-  position: fixed;
-  left: 0;
-  background: rgba(255, 255, 255, 0.7);
-  width: 60%;
-  padding: 0 20%;
-  display: flex;
-  bottom: 0;
-  justify-content: space-between;
-  align-items: center; }
-
 #container {
   cursor: pointer;
   background-image: url("../img/0.jpg"); }

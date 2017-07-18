@@ -3,15 +3,14 @@
  */
 $(document).ready(function () {
     if ( ! Detector.webgl ) Detector.addGetWebGLMessage();
-    let container, stats,texture_placeholder;
+    let container,texture_placeholder;
     let camera, controls, scene, renderer;
-    let cross;
     let raycaster;
     let mouse;
     init();
     animate();
     function init() {
-        camera = new THREE.PerspectiveCamera( 60, window.innerWidth / window.innerHeight, 1, 100000 );
+        camera = new THREE.PerspectiveCamera( 75, window.innerWidth / window.innerHeight, 1, 10000 );
         camera.position.z =500;
         controls = new THREE.TrackballControls( camera );
         controls.rotateSpeed = 11.5; //旋转速度
@@ -31,53 +30,81 @@ $(document).ready(function () {
         console.log(main);
         let material=[];    //创建一个空数组，放图片
         for ( let i = 0; i < 17; i ++ ) {
-            let texture=THREE.ImageUtils.loadTexture(`../img2/${i}.jpg`);
+            let texture=THREE.ImageUtils.loadTexture(`../img/${i}.jpg`);
             material.push(new THREE.MeshBasicMaterial({map:texture}));
             let mesh = new THREE.Mesh( geometry, material[i] );
             mesh.position.x = ( Math.random() - 0.5 ) * 668;
             mesh.position.y = ( Math.random() - 0.5 ) * 300;
-            mesh.position.z = ( Math.random() - 0.5 ) * 700;
+            mesh.position.z = ( Math.random() - 0.5 ) * 800;
             $('mesh').css('cursor','pointer');
             switch (i){
                 case 0:
                     mesh.userData={
-                        URL:"https://www.baidu.com/"
+                        URL:"../html/1.html"
                     };break;
                 case 1:
                     mesh.userData={
-                        URL:"https://www.baidu.com/"
+                        URL:"../html/2.html"
                     };break;
                 case 2:
                     mesh.userData={
-                        URL:"https://www.baidu.com/"
+                        URL:"../html/3.html"
                     };break;
                 case 3:
                     mesh.userData={
-                        URL:"https://www.baidu.com/"
+                        URL:"../html/4.html"
                     };break;
                 case 4:
                     mesh.userData={
-                        URL:"https://www.baidu.com/"
+                        URL:"../html/5.html"
                     };break;
                 case 5:
                     mesh.userData={
-                        URL:"https://www.baidu.com/"
+                        URL:"../html/6.html"
                     };break;
                 case 6:
                     mesh.userData={
-                        URL:"https://www.baidu.com/"
+                        URL:"../html/7.html"
                     };break;
                 case 7:
                     mesh.userData={
-                        URL:"https://www.baidu.com/"
+                        URL:"../html/8.html"
                     };break;
                 case 8:
                     mesh.userData={
-                        URL:"https://www.baidu.com/"
+                        URL:"../html/9.html"
                     };break;
                 case 9:
                     mesh.userData={
-                        URL:"https://www.baidu.com/"
+                        URL:"../html/10.html"
+                    };break;
+                case 10:
+                    mesh.userData={
+                        URL:"../html/11.html"
+                    };break;
+                case 11:
+                    mesh.userData={
+                        URL:"../html/12.html"
+                    };break;
+                case 12:
+                    mesh.userData={
+                        URL:"../html/13.html"
+                    };break;
+                case 13:
+                    mesh.userData={
+                        URL:"../html/14.html"
+                    };break;
+                case 14:
+                    mesh.userData={
+                        URL:"../html/15.html"
+                    };break;
+                case 15:
+                    mesh.userData={
+                        URL:"../html/16.html"
+                    };break;
+                case 16:
+                    mesh.userData={
+                        URL:"../html/17.html"
                     };break;
 
             }
@@ -106,8 +133,8 @@ $(document).ready(function () {
         // renderer.setClearColor( scene.fog.color ); //设置渲染器清除色
         renderer.setPixelRatio( window.devicePixelRatio );
         renderer.setSize( window.innerWidth, window.innerHeight );
-        container = document.getElementById( 'container' );
-        container.appendChild( renderer.domElement );
+        container = document.getElementById( 'container' ); //获取
+        container.appendChild( renderer.domElement );   //将canvas添加到页面
 
         texture_placeholder=document.createElement('canvas');
         texture_placeholder.width = 128;
@@ -116,14 +143,20 @@ $(document).ready(function () {
         context.fillStyle = 'rgb( 200, 200, 200 )';
         context.fillRect( 0, 0, texture_placeholder.width, texture_placeholder.height );
         let materials = [
-            loadTexture( '../img/10.jpg' ), // right
-            loadTexture( '../img/11.jpg' ), // left
-            loadTexture( '../img/12.jpg' ), // top
-            loadTexture( '../img/13.jpg' ), // bottom
-            loadTexture( '../img/14.jpg' ), // back
-            loadTexture( '../img/15.jpg' ) // front
+            loadTexture( '../img/px.jpg' ), // right
+            loadTexture( '../img/nx.jpg' ), // left
+            loadTexture( '../img/py.jpg' ), // top
+            loadTexture( '../img/ny.jpg' ), // bottom
+            loadTexture( '../img/pz.jpg' ), // back
+            loadTexture( '../img/nz.jpg' ) // front
+            // loadTexture( '../img/xue/posx.jpg' ), // right
+            // loadTexture( '../img/xue/negx.jpg' ), // left
+            // loadTexture( '../img/xue/posy.jpg' ), // top
+            // loadTexture( '../img/xue/negy.jpg' ), // bottom
+            // loadTexture( '../img/xue/posz.jpg' ), // back
+            // loadTexture( '../img/xue/negz.jpg' ) // front
         ];
-       let mesh=new THREE.Mesh(new THREE.BoxGeometry( 30000, 30000, 30000, 70, 70, 70 ), new THREE.MultiMaterial( materials ) );
+       let mesh=new THREE.Mesh(new THREE.BoxGeometry( 300000, 300000, 300000, 70, 70, 70 ), new THREE.MultiMaterial( materials ) );
         mesh.scale.x = - 1;
         scene.add( mesh );
         for ( let i = 0, l = mesh.geometry.vertices.length; i < l; i ++ ) {
@@ -149,7 +182,7 @@ $(document).ready(function () {
         image.src = path;
         return material;
     }
-    function onWindowResize() {
+    function onWindowResize() { // 当窗口改变时
         camera.aspect = window.innerWidth / window.innerHeight;
         camera.updateProjectionMatrix();
         renderer.setSize( window.innerWidth, window.innerHeight );
@@ -157,13 +190,13 @@ $(document).ready(function () {
         render();
     }
 
-    function onDocumentTouchStart( event ) {
-        event.preventDefault();
+    function onDocumentTouchStart( event ) { //点击时发生
+        event.preventDefault();   //阻止默认事件发生
         event.clientX = event.touches[0].clientX;
         event.clientY = event.touches[0].clientY;
         onDocumentMouseDown( event );
     }
-    function onDocumentMouseDown( event ) {
+    function onDocumentMouseDown( event ) { //鼠标按下时  交互
         event.preventDefault();
         mouse.x = ( event.clientX / renderer.domElement.clientWidth ) * 2 - 1;
         mouse.y = - ( event.clientY / renderer.domElement.clientHeight ) * 2 + 1;
@@ -171,7 +204,7 @@ $(document).ready(function () {
 
         let intersects = raycaster.intersectObjects(scene.children);    //定义射线拾取物体
 
-        if ( intersects.length > 0 ) {
+        if ( intersects.length > 0 ) {  //当大于0就证明射线与物体相交，取到相应物体
             location.assign(intersects[0].object.userData.URL); //当射中打开链接
         }
     }
